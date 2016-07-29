@@ -1,5 +1,5 @@
 // The main file
-// example inspired from: https://www.youtube.com/watch?v=pYOltVz7kL0&index=13&list=PL6gx4Cwl9DGBMdkKFn3HasZnnAqVjzHn_
+// example inspired from: https://www.youtube.com/watch?v=_D2w0voFlEk
 // YouTube channer: (thenewboston) https://www.youtube.com/channel/UCJbPGzawDH1njbqV-D5HqKw
 
 // Instructions
@@ -15,7 +15,8 @@
 */
 
 
-var http = require('http');
+var http = require('http'),
+    fs   = require('fs');
 
 // handle user requests  
 function onRequest(request, response) {
@@ -25,13 +26,12 @@ function onRequest(request, response) {
   // console.dir(request);
   // console.dir(response);
   
-  response.writeHead(200, {"Content-Type": "text/plain"});
-  response.write("Hello World");
+  response.writeHead(200, {"Content-Type": "text/html"});
+  // Read the HTML file and respond with it's content
+  fs.createReadStream("./index.html").pipe(response);
   
-  // end the response
-  response.end( function() {
-    // callback
-    console.log("Response has been ended");
+  response.on("finish", function() { 
+    console.log("Response finished");
   });
 }
 
